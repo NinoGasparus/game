@@ -1,11 +1,19 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <chrono>
-#include "DataStruct/DataStruct/DataStruct.h"
+#include "DataStruct/Vector/Vector.h"
+
 int main() {
 	//shit might happen
-	
-	//
+  VecND* v1 = new VecND(1000);
+    for (int i =0; i < 1000; i++){
+    v1->dim(i) = 1;
+  }
+  v1->print();
+  printf("%f", v1->mag());
+  
+  
+	/*
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL2 initialization failed: " << SDL_GetError() << std::endl;
         return 1;
@@ -74,7 +82,7 @@ int main() {
         // Present the renderer to the screen
         SDL_RenderPresent(pRenderer);
       t1 =  std::chrono::high_resolution_clock::now();
-      std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count() << '\n';
+      std::cout << 10e6/std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count() << " FPS\n";
     }
 
     // Cleanup
@@ -83,7 +91,7 @@ int main() {
     SDL_DestroyRenderer(pRenderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-
+*/
     return 0;
 }
 
