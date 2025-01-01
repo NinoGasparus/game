@@ -2,40 +2,58 @@
 #define DRAWABLE_H
 
 #include "../DataStruct/Color/Color.h"
-
+#include "../DataStruct/Vector/Vector.h"
 class Drawable{
   private:
   public:
-    Color* buff;
-    Drawable(){}
-    Drawable(int size){
-      buff = new Color[size];
-    }
+ 
+    ColorRGB* col;
 
+    Drawable(){}
+
+  virtual void Draw(unsigned char* frameBuffer) const = 0;
   virtual ~Drawable() {
-    delete[] buff;
+    delete[] col;
   }
 
-
+  void setCol(ColorRGB*  color){
+     this->col =  color;
+  }
+ 
 };
 
 class Point : Drawable{
   private: 
   public: 
-    float x = 0;
-    float y = 0;
-    ColorRGB col;
-
-    Point() : Drawable(1) {}  
-    Point(int x, int y) : Drawable(1){
-      this->x = x;
-      this->y = y;
-    }
-    void setCol(ColorRGB  color){
-      this->col =  color;
+    Vec2D<int> pos; 
+    Point(){}  
+    Point(int x, int y){
+      this->pos.x() = x;
+      this->pos.y() = y;
     }
     
-  
+    int& x(){ return this->pos.x();};
+    int& y(){ return this->pos.y();};
+ 
+};
+
+class Line : Drawable{
+  private:
+  public:
+    Vec4D<int> pos;
+    Line();
+    Line(int x1, int y1, int x2, int y2){
+     this->pos.x() = x1;
+     this->pos.y() = y1;
+     this->pos.z() = x2;
+     this->pos.w() = y2;
+    }
+
+  int& x1(){return this->pos.x();};
+  int& y1(){return this->pos.y();};   
+
+  int& x2(){return this->pos.z();};
+  int& y2(){return this->pos.w();};
 };
 
 #endif // !

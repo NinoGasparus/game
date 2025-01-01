@@ -2,25 +2,29 @@
 #include <cmath>
 
 
-Vec3D::Vec3D() : Vector(3){
-  data[0] = 0;
-  data[1] = 0;
-  data[2] = 0;  
-}
-  
-float Vec3D::mag() const {
-  return std::sqrtf(data[0] * data[0] + data[1] * data[1] * data[2] * data[2]);
+template <typename T>
+Vec3D<T>::Vec3D() : Vector<T>(3) {
+    this->data[0] = 0;
+    this->data[1] = 0;
+    this->data[2] = 0;  
 }
 
-
-void Vec3D::print() const{
-  printf("Vec3 [x: %f, y: %f, z: %f]",data[0], data[1], data[2]);
+template <typename T>
+float Vec3D<T>::mag() const {
+    return std::sqrtf(this->data[0] * this->data[0] + this->data[1] * this->data[1] + this->data[2] * this->data[2]);
 }
 
-void  Vec3D::normalize() {
-  float mag = this->mag();    
-  data[0] /= mag;
-  data[1] /= mag;
-  data[2] /= mag;
-  return;
+template <typename T>
+void Vec3D<T>::print() const {
+    printf("Vec3 [x: %f, y: %f, z: %f]", this->data[0], this->data[1], this->data[2]);
 }
+
+template <typename T>
+void Vec3D<T>::normalize() {
+    float mag = this->mag();    
+    this->data[0] /= mag;
+    this->data[1] /= mag;
+    this->data[2] /= mag;
+    return;
+}
+

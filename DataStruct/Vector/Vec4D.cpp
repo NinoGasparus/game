@@ -1,26 +1,36 @@
 #include "Vector.h"
 #include <cmath>
 
-
-Vec4D::Vec4D() : Vector(4){
-  data[0] = 0;
-  data[1] = 0;
-  data[2] = 0;
-  data[3] = 0;
+template <typename T>
+Vec4D<T>::Vec4D() : Vector<T>(4) {
+    this->data[0] = 0;
+    this->data[1] = 0;
+    this->data[2] = 0;
+    this->data[3] = 0;
 }
 
-float Vec4D::mag() const{
-  return std::sqrtf(data[0] * data[0] + data[1] * data[1] + data[2]* data[2] + data[3] * data[3]);
-}
-void Vec4D::print() const{
-  printf("Vec4 [x: %f, y: %f, z: %f, w: %f]",data[0], data[1], data[2], data[3]);
+template <typename T>
+float Vec4D<T>::mag() const {
+    return std::sqrtf(
+        this->data[0] * this->data[0] + 
+        this->data[1] * this->data[1] + 
+        this->data[2] * this->data[2] + 
+        this->data[3] * this->data[3]
+    );
 }
 
-void  Vec4D::normalize() {
-  float mag = this->mag();
-  data[0] /= mag;
-  data[1] /= mag;
-  data[2] /= mag;
-  data[3] /= mag;
-  return;
+template <typename T>
+void Vec4D<T>::print() const {
+    printf("Vec4 [x: %f, y: %f, z: %f, w: %f]", this->data[0], this->data[1], this->data[2], this->data[3]);
 }
+
+template <typename T>
+void Vec4D<T>::normalize() {
+    float mag = this->mag();
+    this->data[0] /= mag;
+    this->data[1] /= mag;
+    this->data[2] /= mag;
+    this->data[3] /= mag;
+    return;
+}
+

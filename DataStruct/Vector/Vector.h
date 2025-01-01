@@ -24,7 +24,7 @@ class Vector : public DataStruct<T>{
 //pro bass shop
 
 template <typename  T>
-class Vec2D :  Vector<float> {
+class Vec2D :  Vector<T> {
   private:
   public:
     Vec2D();
