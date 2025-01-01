@@ -3,6 +3,7 @@
 
 #include "../DataStruct/Color/Color.h"
 #include "../DataStruct/Vector/Vector.h"
+#include "../Renderer/Renderer.h"
 class Drawable{
   private:
   public:
@@ -11,7 +12,7 @@ class Drawable{
 
     Drawable(){}
 
-  virtual void Draw(unsigned char* frameBuffer) const = 0;
+  virtual void Draw(Renderer r);
   virtual ~Drawable() {
     delete[] col;
   }
@@ -34,7 +35,8 @@ class Point : Drawable{
     
     int& x(){ return this->pos.x();};
     int& y(){ return this->pos.y();};
- 
+
+    void Draw(Renderer r) override;
 };
 
 class Line : Drawable{
