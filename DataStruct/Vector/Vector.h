@@ -3,18 +3,18 @@
 #include "../DataStruct/DataStruct.h"
 #include <cstdio>
 
-
-class Vector : public DataStruct{
+template <typename T>
+class Vector : public DataStruct<T>{
   protected:
   public:
-    Vector(int size) : DataStruct(size){}
+    Vector(int size) : DataStruct<T>(size){} 
     
     virtual float mag() const{
       return 0;
     };
     
     virtual void print() const{
-      printf("Vector at %p\n", data );
+      printf("Vector at %p\n", this->data );
     }
 
     virtual void  normalize() = 0;
@@ -23,14 +23,13 @@ class Vector : public DataStruct{
 
 //pro bass shop
 
-
-
-class Vec2D :  Vector {
+template <typename  T>
+class Vec2D :  Vector<float> {
   private:
   public:
     Vec2D();
-    float& x(){ return data[0];};
-    float& y(){ return data[1];};
+    T& x(){ return this->data[0];};
+    T& y(){ return this->data[1];};
 
     float mag() const   override;
     void print() const  override;
@@ -42,14 +41,14 @@ class Vec2D :  Vector {
 
 
 
-
-class Vec3D : Vector{
+template <typename T>
+class Vec3D : Vector<T>{
   private:
   public:
     Vec3D();
-    float& x(){ return data[0];};
-    float& y(){ return data[1];};
-    float& z(){ return data[2];};
+    T& x(){ return this->data[0];};
+    T& y(){ return this->data[1];};
+    T& z(){ return this->data[2];};
 
     float mag() const   override;
     void print() const  override;
@@ -58,15 +57,15 @@ class Vec3D : Vector{
 };
 
 
-
-class Vec4D : Vector{
+template <typename T>
+class Vec4D : Vector<T>{
   private:
   public:
     Vec4D();
-    float& x(){ return data[0];};
-    float& y(){ return data[1];};
-    float& z(){ return data[2];};
-    float& w(){ return data[3];};
+    T& x(){ return this->data[0];};
+    T& y(){ return this->data[1];};
+    T& z(){ return this->data[2];};
+    T& w(){ return this->data[3];};
 
     float mag() const   override;
     void print() const  override;
@@ -75,11 +74,12 @@ class Vec4D : Vector{
 
 };
 
-class VecND : Vector{
+template <typename T>
+class VecND : Vector<T>{
   private:
   public:
     VecND(int size);
-    float& dim(int dim){ return data[dim];};
+    T& dim(int dim){ return this->data[dim];};
 
     float mag() const   override;
     void print() const  override;

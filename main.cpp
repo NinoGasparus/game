@@ -5,12 +5,12 @@
 
 int main() {
 	//shit might happen
-  VecND* v1 = new VecND(1000);
-    for (int i =0; i < 1000; i++){
-    v1->dim(i) = 1;
-  }
-  v1->print();
-  printf("%f", v1->mag());
+  Vec2D* v= new Vec2D();
+  v->x() = 3;
+  v->y() = 4;
+  v->normalize();
+  v->print();
+  printf("%f", v->mag());
   
   
 	/*

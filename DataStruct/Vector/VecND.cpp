@@ -23,5 +23,9 @@ void VecND::print() const{
 }
 
 void  VecND::normalize() {
+  float mag = this->mag();
+  for(int i =0; i < this->size; i++){
+    data[i] /= mag;
+  }
   return;
 }

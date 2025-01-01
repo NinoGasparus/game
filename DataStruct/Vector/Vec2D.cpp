@@ -17,5 +17,8 @@ void Vec2D::print() const{
 }
 
 void  Vec2D::normalize() {
+  float mag = this->mag();
+  data[0] /= mag;
+  data[1] /= mag;
   return;
 }

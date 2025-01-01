@@ -17,5 +17,10 @@ void Vec4D::print() const{
 }
 
 void  Vec4D::normalize() {
+  float mag = this->mag();
+  data[0] /= mag;
+  data[1] /= mag;
+  data[2] /= mag;
+  data[3] /= mag;
   return;
 }
