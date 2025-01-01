@@ -1,5 +1,7 @@
 #include "Vector.h"
 #include <cmath>
+#include <cstdint>
+#include <iostream>
 
 template <typename T>
 Vec4D<T>::Vec4D() : Vector<T>(4) {
@@ -21,7 +23,7 @@ float Vec4D<T>::mag() const {
 
 template <typename T>
 void Vec4D<T>::print() const {
-    printf("Vec4 [x: %f, y: %f, z: %f, w: %f]", this->data[0], this->data[1], this->data[2], this->data[3]);
+  std::cout << "Vec2 [x: " << this->data[0]  << " y: " << this->data[1] << " z: " << this->data[2] << " w: " << this->data[3] << "]\n";
 }
 
 template <typename T>
@@ -34,3 +36,14 @@ void Vec4D<T>::normalize() {
     return;
 }
 
+template class Vec4D<int>;
+template class Vec4D<float>;
+template class Vec4D<double>;
+template class Vec4D<char>;
+template class Vec4D<uint8_t>;
+template class Vec4D<uint16_t>;
+template class Vec4D<uint32_t>;
+template class Vec4D<uint64_t>;
+template class Vec4D<int8_t>;
+template class Vec4D<int16_t>;
+template class Vec4D<int64_t>;

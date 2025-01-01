@@ -51,7 +51,7 @@ class ColorHSB : public Color{
     this->h = h;
     this->s = s;
     this->b = b;
-  }
+    }
 };
 #endif // !COLOR_H
 

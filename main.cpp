@@ -1,18 +1,12 @@
-#include <SDL2/SDL.h>
-#include <iostream>
-#include <chrono>
-#include "DataStruct/Vector/Vector.h"
+//#include <SDL2/SDL.h>
 
+#include "DataStruct/Vector/Vector.h"
 int main() {
 	//shit might happen
-  Vec2D* v= new Vec2D();
-  v->x() = 3;
-  v->y() = 4;
-  v->normalize();
-  v->print();
-  printf("%f", v->mag());
   
-  
+  VecND<float> v (1000);
+  v.setDims(1,0,1000);
+  printf("%f", v.mag());
 	/*
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL2 initialization failed: " << SDL_GetError() << std::endl;

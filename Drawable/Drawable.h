@@ -12,7 +12,7 @@ class Drawable{
 
     Drawable(){}
 
-  virtual void Draw(Renderer r);
+  virtual void Draw(Renderer* r);
   virtual ~Drawable() {
     delete[] col;
   }
@@ -23,39 +23,78 @@ class Drawable{
  
 };
 
+
+
+template <typename T>
 class Point : Drawable{
   private: 
   public: 
-    Vec2D<int> pos; 
+    Vec2D<T> pos; 
     Point(){}  
-    Point(int x, int y){
+    Point(T x, T y){
       this->pos.x() = x;
       this->pos.y() = y;
     }
     
-    int& x(){ return this->pos.x();};
-    int& y(){ return this->pos.y();};
+    T& x(){ return this->pos.x();};
+    T& y(){ return this->pos.y();};
 
-    void Draw(Renderer r) override;
+    void Draw(Renderer* r) override;
 };
 
+template <typename T>
 class Line : Drawable{
   private:
   public:
-    Vec4D<int> pos;
+    Vec4D<T> pos;
     Line();
-    Line(int x1, int y1, int x2, int y2){
+    Line(T x1, T y1, T x2, T y2){
      this->pos.x() = x1;
      this->pos.y() = y1;
      this->pos.z() = x2;
      this->pos.w() = y2;
     }
 
-  int& x1(){return this->pos.x();};
-  int& y1(){return this->pos.y();};   
+  T& x1(){return this->pos.x();};
+  T& y1(){return this->pos.y();};   
 
-  int& x2(){return this->pos.z();};
-  int& y2(){return this->pos.w();};
+  T& x2(){return this->pos.z();};
+  T& y2(){return this->pos.w();};
+ 
+  void Draw(Renderer* r) override;
+
+};
+
+template <typename T>
+class Tri : Drawable{
+  private:
+  public:
+    Vec2D<T> v1;
+    Vec2D<T> v2;
+    Vec2D<T> v3;
+    
+    Tri();
+    Tri(T x1, T y1, T  x2, T  y2, T x3, T y3){
+      this->v1.x() = x1;
+      this->v1.y() = y1;
+      this->v2.x() = x2;
+      this->v2.y() = y2;
+      this->v3.x() = x3;
+      this->v3.y() = y3;
+  }
+  Tri(Vec2D<T> v1, Vec2D<T> v2, Vec2D<T> v3){
+    this->v1.x() = v1.x();
+    this->v1.y() = v1.y();
+    this->v2.x() = v2.x();
+    this->v2.y() = v2.y();
+    this->v3.x() = v3.x();
+    this->v3.y() = v3.y();
+  }
+ /* 
+  Vec2D<T>& v1(){return this->v1;};
+  Vec2D<T>& v2(){return this->v2;};
+  Vec2D<T>& v3(){return this->v3;};
+*/
 };
 
 #endif // !

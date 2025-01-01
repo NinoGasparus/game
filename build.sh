@@ -3,23 +3,46 @@
 optLvl='O2'
 
 files=(
-	"main.cpp"
-	"DataStruct/DataStruct/DataStruct.cpp"
-	"DataStruct/Vector/Vec2D.cpp"
-	"DataStruct/Vector/Vec3D.cpp"
-	"DataStruct/Vector/Vec4D.cpp"
-	"DataStruct/Vector/VecND.cpp"
+	"./main.cpp"
+
+  "./DataStruct/DataStruct/DataStruct.cpp"
+
+  "./DataStruct/Vector/Vec2D.cpp"
+  "./DataStruct/Vector/Vec3D.cpp"
+  "./DataStruct/Vector/Vec4D.cpp"
+  "./DataStruct/Vector/VecND.cpp"
+
+  "./Drawable/Drawable.cpp"
+  "./Drawable/Point.cpp"
+  "./Drawable/Line.cpp"
+  "./Drawable/Tri.cpp"
+
+  "./Renderer/Renderer.cpp"
+
 )
 
 flags=(
 	"SDL2"
+
 	""  
-	""
-	""
-	""
-	""
+
+  ""
+  ""
+  ""
+  ""
+  
+  ""
+  ""
+  ""
+  ""
+
+  ""
 )
 
+
+if [[ "$1" == "all" ]]; then
+    rm -rf Build/
+fi
 mkdir -p ./Build
 
 linkFlags=()

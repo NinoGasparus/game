@@ -8,8 +8,11 @@ class Renderer{
   public:
     unsigned char * frameBuffer;
     Vec2D<int> windowSize;
+    bool active = false; 
     
-
+    Renderer();
+    
+    void createWindow(Vec2D<int> resolution);
 
 };
 
