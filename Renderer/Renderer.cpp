@@ -7,14 +7,43 @@
 Renderer::Renderer(){
   return;
 }
-void Renderer::createWindow(Window w){
-    if(!w.isReady()){
+
+
+
+void Renderer::createWindow(Window* w){
+    if(!w->isReady()){
       printf("Window not initialized\n");
       return;
 
     }
-    int width = 800;
-    int height = 100;
+
+    std::cout << w->title << '\n';
+
+    std::cout << w->position->x()<<'\n';
+    std::cout << w->position->y()<<'\n';
+
+    std::cout << w->resolution->x()<<'\n';
+    std::cout << w->resolution->y()<<'\n';
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "SDL2 initialization failed: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    SDL_Window* window = SDL_CreateWindow(
+        w->title.c_str(),
+        w->position->x(), w->position->y(),
+        w->resolution->x(), w->resolution->y(),
+        SDL_WINDOW_SHOWN
+    );
+    if (!window) {
+        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return;
+    }
+    
+
+    int width = w->resolution->x();
+    int height = w->resolution->y();
     uint32_t* framebuffer = new uint32_t[width * height];  
 
     for (int y = 0; y < height; ++y) {
@@ -26,10 +55,10 @@ void Renderer::createWindow(Window w){
   
     
 
-    SDL_Renderer* pRenderer = SDL_CreateRenderer(w.win, -1, SDL_RENDERER_ACCELERATED);
+    SDL_Renderer* pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!pRenderer) {
         std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(w.win);
+    SDL_DestroyWindow(window);
         SDL_Quit();
         return;
     }
@@ -44,6 +73,7 @@ void Renderer::createWindow(Window w){
 
     while (running) {
    //      t0 = std::chrono::high_resolution_clock::now();
+      SDL_Delay(16); // ~60 FPS
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -65,9 +95,8 @@ void Renderer::createWindow(Window w){
     delete[] framebuffer; 
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(pRenderer);
-    SDL_DestroyWindow(w.win);
+    SDL_DestroyWindow(window);
     SDL_Quit();
-
 }
 
 

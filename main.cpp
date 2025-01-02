@@ -1,14 +1,12 @@
 #include "Renderer/Renderer.h"
 int main() {
-  Renderer r;
-  Window  w;
-  w.setPosition(100,100);
-  Vec2D<int> pos;
-  pos.x() = 200;
-  pos.y() = 400;
-  w.setTitle("bogus");
-  w.setResolution(pos);
-  r.createWindow(w);
+  Window* w = new Window();
+  w->setPosition(0, 0);
+  w->setResolution(400,800);
+  w->setTitle("bogus");
+
+  Renderer* r = new Renderer();
+  r->createWindow(w);
   
   return 0;
 }
