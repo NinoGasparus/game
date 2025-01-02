@@ -7,6 +7,7 @@ template <typename T>
 class Vector : public DataStruct<T>{
   protected:
   public:
+    char checksum = -1;
     Vector(int size) : DataStruct<T>(size){} 
     
     virtual float mag() const{
@@ -27,6 +28,7 @@ template <typename  T>
 class Vec2D :  Vector<T> {
   private:
   public:
+    char checksum = 2;
     Vec2D<T>();
     T& x(){ return this->data[0];};
     T& y(){ return this->data[1];};
@@ -44,6 +46,7 @@ template <typename T>
 class Vec3D : Vector<T>{
   private:
   public:
+    char checksum = 3;
     Vec3D<T>();
     T& x(){ return this->data[0];};
     T& y(){ return this->data[1];};
@@ -61,6 +64,7 @@ class Vec4D : Vector<T>{
   private:
   public:
   Vec4D<T>();
+    char checksum = 4;
     T& x(){ return this->data[0];};
     T& y(){ return this->data[1];};
     T& z(){ return this->data[2];};
@@ -77,6 +81,7 @@ template <typename T>
 class VecND : Vector<T>{
   private:
   public:
+    char checksum = 5;
     VecND(int size);
     T& dim(int dim){ return this->data[dim];};
 

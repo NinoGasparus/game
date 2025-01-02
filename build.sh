@@ -18,7 +18,7 @@ files=(
   "./Drawable/Tri.cpp"
 
   "./Renderer/Renderer.cpp"
-
+  "./Renderer/Window.cpp"
 )
 
 flags=(
@@ -36,6 +36,7 @@ flags=(
   ""
   ""
 
+  ""
   ""
 )
 
