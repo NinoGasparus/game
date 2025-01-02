@@ -1,16 +1,62 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
+#include <chrono>
+#include <condition_variable>
+#include <cstdio>
 #include <iostream>
+#include <mutex>
+#include <thread>
+#include <vector>
 
 #include "Renderer.h"
+std::atomic<int>Renderer::wkCount = 0;
+std::atomic<bool>Renderer::active=true;
+std::vector<std::thread> Renderer::workers;
+std::condition_variable Renderer::cv;
+std::mutex  Renderer::mtx;
 
-Renderer::Renderer(){
+bool closing = false;  //set to true when windows should be closed than notify all waiters for cv
+
+void Renderer::createWindow(Window* w){
+  closing = false;
+  active = true;
+  Renderer();
+  workers.emplace_back(std::thread(frameUpdater, w));
+  wkCount++;
+}
+
+void Renderer::threadTerminator(){
+  while(true){
+    std::unique_lock<std::mutex> lock(mtx);
+    
+    cv.wait(lock, []{ return closing;});
+    for (size_t i = 0; i < workers.size(); ) {
+      workers[i].join();  
+      wkCount--;        
+      workers.erase(workers.begin() + i);
+    }
+    lock.unlock();
+    break;
+  }
+  active = false;
   return;
 }
 
+Renderer::Renderer(){
+  active = true;
+  std::thread master(&Renderer::threadTerminator);
+  master.detach();
+}
+bool Renderer::running() {
+  return active;
+}
 
 
-void Renderer::createWindow(Window* w){
+ void Renderer::frameUpdater(Window* w){
+  if(!active){
+    return;
+  }
+  
     if(!w->isReady()){
       printf("Window not initialized\n");
       return;
@@ -68,16 +114,20 @@ void Renderer::createWindow(Window* w){
 
     bool running = true;
     SDL_Event event;
-  //  auto t0 = std::chrono::high_resolution_clock::now();
-  // auto t1 = std::chrono::high_resolution_clock::now();
+    auto t0 = std::chrono::high_resolution_clock::now();
+    auto t1 = std::chrono::high_resolution_clock::now();
 
     while (running) {
-   //      t0 = std::chrono::high_resolution_clock::now();
-      SDL_Delay(16); // ~60 FPS
+      t0 = std::chrono::high_resolution_clock::now();
+      std::this_thread::sleep_for(std::chrono::milliseconds(w->timeout));
+      if(!active){
+      return;
+      }
 
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
+            if (event.type == SDL_QUIT ||  event.type == SDL_WINDOWEVENT_CLOSE) {
+                closing = true;
+                goto end;
             }
         }
 
@@ -88,21 +138,18 @@ void Renderer::createWindow(Window* w){
         SDL_RenderCopy(pRenderer, texture, NULL, NULL);
 
         SDL_RenderPresent(pRenderer);
-//      t1 =  std::chrono::high_resolution_clock::now();
- //     std::cout << 10e6/std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count() << " FPS\n";
+        t1 =  std::chrono::high_resolution_clock::now();
+        w->fps = (int)10e6/std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count();
+        
     }
-
+    end:
     delete[] framebuffer; 
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(pRenderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-}
+    cv.notify_all();
 
-
-
-void Renderer::frameUpdater(){
-  if(!this->active){
     return;
-  }
 }
+

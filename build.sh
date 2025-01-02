@@ -19,6 +19,8 @@ files=(
 
   "./Renderer/Renderer.cpp"
   "./Renderer/Window.cpp"
+
+  "./Intervalometer/IntMeter.cpp"
 )
 
 flags=(
@@ -37,6 +39,8 @@ flags=(
   ""
 
   ""
+  ""
+
   ""
 )
 

@@ -28,7 +28,7 @@ bool Window::isReady(){
       }
     }
     
-  }catch(int ex){
+  }catch(...){
     printf("\nTryCatch failed\n");
     return false;
   };
