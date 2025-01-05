@@ -1,8 +1,10 @@
-#include "Renderer.h"
+#include "Window.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
-#include <iostream>
+#include <cstdint>
 #include <string>
+
 bool Window::isReady(){
   if(title == ""){
     return false;
@@ -81,6 +83,7 @@ void Window::setPosition(Vec2D<int>position){
 
 
 void Window::setResolution(int x, int y){
+    delete frameBuffer;
   if(this->resolution->checksum != 2){
     this->resolution=new Vec2D<int>();
     this->resolution->x() = x;
@@ -90,9 +93,13 @@ void Window::setResolution(int x, int y){
     this->resolution->y() = y;
 
   }
+
+ this->frameBuffer = new uint32_t[this->resolution->x() * this->resolution->y()];
+
 }
 
 void Window::setResolution(Vec2D<int>resolution){
+    delete frameBuffer;
   if(this->resolution->checksum != 2){
     this->resolution= position;
   }else{
@@ -101,6 +108,8 @@ void Window::setResolution(Vec2D<int>resolution){
 
 
   }
+   this->frameBuffer = new uint32_t[this->resolution->x() * this->resolution->y()];
+
 }
 
 
@@ -108,86 +117,18 @@ void Window::addFlags(Uint32 flags){
   additionalFlags |= flags;
 }
 
-Window::Window() {
-    title = "Untitled";
-    shown = true;
-    borderless = false;
-    additionalFlags = 0;
+
+void Window::getTimeout(){
+  if(targetFPS== -1){
+    this->timeout = 0;
+    return;
+  } 
+  this->timeout =(int) 10000/(this->targetFPS);
 }
 
-Window::Window(const std::string& t) {
-    title = t;
-    shown = true;
-    borderless = false;
-    additionalFlags = 0;
-}
-
-Window::Window(const std::string& t, Vec2D<int>& res) {
-    title = t;
-    resolution->x() = res.x();
-    resolution->y() = res.y();
-    shown = true;
-    borderless = false;
-    additionalFlags = 0;
-}
-Window::Window(const std::string& t, Vec2D<int>& res, bool s) {
-    title = t;
-    shown = s;
-    resolution->x() = res.x();
-    resolution->y() = res.y();
-    borderless = false;
-    additionalFlags = 0;
-}
-
-Window::Window(const std::string& t, Vec2D<int>& res, Uint32 flags) {
-    title = t;
-    resolution->x() = res.x();
-    resolution->y() = res.y();
-    shown = true;
-    borderless = false;
-    additionalFlags = flags;
-}
-
-Window::Window(const std::string& t, bool s, bool b) {
-    title = t;
-    shown = s;
-    borderless = b;
-    additionalFlags = 0;
-}
-
-Window::Window(const std::string& t, bool s, Uint32 flags) {
-    title = t;
-    shown = s;
-    borderless = false;
-    additionalFlags = flags;
-}
-
-Window::Window(Vec2D<int>& res, bool s, bool b) {
-    title = "Untitled";
-    resolution->x() = res.x();
-    resolution->y() = res.y();
-    shown = s;
-    borderless = b;
-    additionalFlags = 0;
-}
-
-Window::Window(Vec2D<int>& res, bool s, Uint32 flags) {
-    title = "Untitled";
-    resolution->x() = res.x();
-    resolution->y() = res.y();
-    shown = s;
-    borderless = false;
-    additionalFlags = flags;
-}
-
-Window::Window(const std::string& t, Vec2D<int>& pos, Vec2D<int>& res, bool s, bool b, Uint32 flags) {
-    title = t;
-    position->x() = pos.x();
-    position->y() = pos.y();
-    resolution->x() = res.x();
-    resolution->y() = res.y();
-    shown = s;
-    borderless = b;
-    additionalFlags = flags;
+void Window::init(){
+  this->frameBuffer = new uint32_t[this->resolution->x() * this->resolution->y()];
+  this->clock = new IntMeter();
+  this->clock->addExecution([this](){this->getTimeout();}, 50000);
 }
 

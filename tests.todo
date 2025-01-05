@@ -1,1 +1,3 @@
 make renderer work with generating multiple windows
+
+make resizing events update window resolution fields

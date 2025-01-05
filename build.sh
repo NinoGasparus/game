@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-optLvl='O2'
+optLvl='oo'
 
 files=(
 	"./main.cpp"
@@ -12,6 +12,8 @@ files=(
   "./DataStruct/Vector/Vec4D.cpp"
   "./DataStruct/Vector/VecND.cpp"
 
+  "./DataStruct/Color/Color.cpp"
+
   "./Drawable/Drawable.cpp"
   "./Drawable/Point.cpp"
   "./Drawable/Line.cpp"
@@ -19,6 +21,8 @@ files=(
 
   "./Renderer/Renderer.cpp"
   "./Renderer/Window.cpp"
+  "./Renderer/Window-Constructors.cpp"
+  "./Renderer/frameUpdater.cpp"
 
   "./Intervalometer/IntMeter.cpp"
 )
@@ -34,13 +38,17 @@ flags=(
   ""
   
   ""
+
+  ""
   ""
   ""
   ""
 
   ""
   ""
-
+  ""
+  ""
+  
   ""
 )
 
@@ -72,6 +80,7 @@ for ((i=0; i<${#files[@]}; i++)); do
 		linkFlags+=("-l${flags[$i]}")
     	fi
 done
+
 
 g++ ./Build/*.o -o main "${linkFlags[@]}" 
 echo "Compilation and linking complete."
