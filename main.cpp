@@ -3,12 +3,14 @@
 #include "Renderer/Window.h"
 #include "Renderer/Renderer.h"
 #include "Drawable/Drawable.h"
+#include "Shapes/3D/Block/Block.h"
 #include <bitset>
+#include <cmath>
 #include <cstdint>
 #include <iostream>
-
+#include "DataStruct/Matrices/Matrix.h"
 int main() {
-  Window* w = new Window();
+/*  Window* w = new Window();
   w->setPosition(0, 0);
   w->setResolution(400, 400);
   w->setTitle("bogus");
@@ -16,7 +18,6 @@ int main() {
   w->setFPS(-1);
   r->createWindow(w);
   
-
   IntMeter i;
   i.addExecution([w](){w->printFPS();}, 10e5);
   ColorRGB barva;
@@ -32,7 +33,7 @@ int main() {
   Tri<int>* t = new Tri<int>(200,200,200,300,300,300);
   Tri<int>* t2 =new Tri<int>(200,200,200,100,100,100);
   Tri<int>* t3 =new Tri<int>(200,200,100,200,100,300);
-  Tri<int>* t4 =new Tri<int>(200,200,300,200,300,100);
+  Tri<int>* t4 =new Tri<int>(229,200,300,200,300,100);
   
   t2->setCol(255,0,0);
   t->setCol(0,255,0);
@@ -50,7 +51,12 @@ int main() {
       t->v2->x() = 200 * cos(time);
       t->v2->y() = 300 * sin(time);
 
-      t->v3->x() = 300 *  cos(time);
+      t->v3->x() = 300    Matrix<T> operator + (const Matrix<T>& other) const;
+    Matrix<T> operator - (const Matrix<T>& other) const;
+    Matrix<T> operator * (const Matrix<T>& other) const;
+    Matrix<T> operator / (const Matrix<T>& other) const;
+    Matrix<T> operator = (const Matrix<T>& other) const;
+  *  cos(time);
       t->v3->y() = 300 * sin(time);
 
   }, 10000);
@@ -61,6 +67,22 @@ int main() {
   i.clearTimeouts();
  
   std::cout << std::bitset<32>((uint32_t)barva);
+*/
+
+  GeneralM<int> bingus(5, 5);
+  IdentityM<int> chungus(3, 3,false);
+//asdasd
+  bingus.set(chungus);
+  GeneralM<int> bingus2(3, 3);
+  bingus2.set(0,0,5);
+  bingus2.set(2,0,5);
+  bingus2.set(0,2,5);
+  bingus2.set(2,2,5);
+
+  bingus = chungus;
+  bingus.print();
+
+
 
   return 0;
 }

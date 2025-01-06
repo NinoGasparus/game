@@ -25,6 +25,17 @@ files=(
   "./Renderer/frameUpdater.cpp"
 
   "./Intervalometer/IntMeter.cpp"
+
+  "./Shapes/2D/Quad/Quad.cpp"
+  "./Shapes/2D/Triagle/Triangle.cpp"
+  "./Shapes/3D/Block/Block.cpp"
+  "./Shapes/3D/Mesh/Mesh.cpp"
+  "./Shapes/Vertex/Vertex.cpp"
+
+  "./DataStruct/Matrices/Matrix.cpp"
+  "./DataStruct/Matrices/SquareM.cpp"
+  "./DataStruct/Matrices/GeneralM.cpp"
+  "./DataStruct/Matrices/IdentityM.cpp"
 )
 
 flags=(
@@ -49,6 +60,17 @@ flags=(
   ""
   ""
   
+  ""
+
+  ""
+  ""
+  ""
+  ""
+  ""
+
+  ""
+  ""
+  ""
   ""
 )
 
@@ -80,7 +102,6 @@ for ((i=0; i<${#files[@]}; i++)); do
 		linkFlags+=("-l${flags[$i]}")
     	fi
 done
-
 
 g++ ./Build/*.o -o main "${linkFlags[@]}" 
 echo "Compilation and linking complete."
