@@ -71,6 +71,10 @@ T Matrix<T>::get(int dimX, int dimY){
 }
 
 
+
+
+
+
 template <typename T>
 Matrix<T>::~Matrix(){
   for(int i =0; i < this->size->y(); i++){
@@ -91,26 +95,8 @@ void Matrix<T>::print(){
 }
 
 
-template <typename T>
-Matrix<T>  Matrix<T>::operator + (const Matrix<T>& other) const{
-  Matrix<T> res(*this);
-  for(int i =0; i < res.size->x(); i++){
-    for(int j =0; j < res.size->y();j++){
-        res.data[i][j] += other.data[i][j];
-    }
-  }
-  return res;
-}
 
-template <typename T>
-Matrix<T> Matrix<T>::operator = (const Matrix<T>& other) {
-   for(int i =0; i < this->size->x(); i++){
-    for(int j =0; j <this->size->y();j++){
-        this->data[i][j] = other.data[i][j];
-    }
-  }
-  return *this;
-}
+
 
 
 template class Matrix<int>;

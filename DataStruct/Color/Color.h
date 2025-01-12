@@ -28,7 +28,7 @@ class ColorRGB : public Color{
     this->b = b;
   }
     
-  operator uint32_t()const override;
+  operator uint32_t() const override;
 };
 
 class ColorRGBA : public ColorRGB{

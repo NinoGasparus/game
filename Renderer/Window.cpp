@@ -83,7 +83,9 @@ void Window::setPosition(Vec2D<int>position){
 
 
 void Window::setResolution(int x, int y){
-    delete frameBuffer;
+    delete frameBuffer[0];
+  delete frameBuffer[1];
+
   if(this->resolution->checksum != 2){
     this->resolution=new Vec2D<int>();
     this->resolution->x() = x;
@@ -94,12 +96,14 @@ void Window::setResolution(int x, int y){
 
   }
 
- this->frameBuffer = new uint32_t[this->resolution->x() * this->resolution->y()];
+ this->frameBuffer[0] = new uint32_t[this->resolution->x() * this->resolution->y()];
+ this->frameBuffer[1] = new uint32_t[this->resolution->x() * this->resolution->y()];
 
 }
 
 void Window::setResolution(Vec2D<int>resolution){
-    delete frameBuffer;
+    delete frameBuffer[0];
+    delete frameBuffer[1];
   if(this->resolution->checksum != 2){
     this->resolution= position;
   }else{
@@ -108,7 +112,8 @@ void Window::setResolution(Vec2D<int>resolution){
 
 
   }
-   this->frameBuffer = new uint32_t[this->resolution->x() * this->resolution->y()];
+   this->frameBuffer[0] = new uint32_t[this->resolution->x() * this->resolution->y()];
+   this->frameBuffer[1] = new uint32_t[this->resolution->x() * this->resolution->y()];
 
 }
 
@@ -127,7 +132,9 @@ void Window::getTimeout(){
 }
 
 void Window::init(){
-  this->frameBuffer = new uint32_t[this->resolution->x() * this->resolution->y()];
+  this->frameBuffer[0] = new uint32_t[this->resolution->x() * this->resolution->y()];
+  this->frameBuffer[1] = new uint32_t[this->resolution->x() * this->resolution->y()];
+
   this->clock = new IntMeter();
   this->clock->addExecution([this](){this->getTimeout();}, 50000);
 }

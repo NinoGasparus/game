@@ -12,7 +12,7 @@ Vec2D<T>::Vec2D() : Vector<T>(2){
 
 template <typename T>
 float Vec2D<T>::mag() const{ 
-  return std::sqrtf(this->data[0]* this->data[0]   + this->data[1]* this->data[1]);
+  return std::sqrt(this->data[0]* this->data[0]   + this->data[1]* this->data[1]);
 }
 
 template <typename T>

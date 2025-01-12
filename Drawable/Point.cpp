@@ -5,7 +5,7 @@
 
 template <typename T>
 void Point<T>::Draw(Window* w){
-  w->frameBuffer[(int)this->y()*(int)w->resolution->x()+(int)this->x()] =(uint32_t)*this->col;
+  w->frameBuffer[w->activeBuff][(int)this->y()*(int)w->resolution->x()+(int)this->x()] =(uint32_t)*this->col;
 }
 
 template class Point<int>;

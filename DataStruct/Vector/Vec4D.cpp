@@ -13,7 +13,7 @@ Vec4D<T>::Vec4D() : Vector<T>(4) {
 
 template <typename T>
 float Vec4D<T>::mag() const {
-    return std::sqrtf(
+    return std::sqrt(
         this->data[0] * this->data[0] + 
         this->data[1] * this->data[1] + 
         this->data[2] * this->data[2] + 

@@ -1,0 +1,184 @@
+#include "DataStruct/Color/Color.h"
+#include "Intervalometer/IntMeter.h"
+#include "Renderer/Window.h"
+#include "Renderer/Renderer.h"
+#include "Drawable/Drawable.h"
+#include "Shapes/2D/Triagle/Triangle.h"
+#include "Shapes/3D/Block/Block.h"
+#include <bitset>
+#include <cmath>
+#include <cstdint>
+#include <iostream>
+#include "DataStruct/Matrices/Matrix.h"
+
+#include "bs.h"
+
+int height = 700;
+int width = 700;
+float fnear = 1.1;
+float ffar = 1000;
+float fov = 120;
+float aspect = (float)height/width;
+
+float fovRad =(float)1/tanf(fov *  0.5/180 * 3.14159);
+
+
+GeneralM<float>* projMat = new GeneralM<float>(4,4);
+  Window* w = new Window();
+int main() {
+
+  
+  projMat->set(0,0, aspect*fovRad);
+  projMat->set(1,1, fovRad);
+  projMat->set(2,2, ffar /(ffar-fnear));
+  projMat->set(3,2,(-ffar*fnear) / (ffar-fnear));
+  projMat->set(2,3, 1);
+  projMat->set(3,3,0);
+
+
+   
+  Window* w = new Window();
+  
+
+  projMat->print();
+
+  Block<float>*  cube = new Block<float>();
+  cube->scaleX =1;
+  cube->scaleY = 1;
+  cube->scaleZ = 1;
+  cube->reScale();
+  for(int i =0; i < 12; i++){
+  
+  std::cout << cube->tris[i].v1.x << cube->tris[i].v1.y << cube->tris[i].v1.z << " \n";
+  std::cout << cube->tris[i].v2.x << cube->tris[i].v2.y << cube->tris[i].v2.z << " \n";
+  std::cout << cube->tris[i].v3.x << cube->tris[i].v3.y << cube->tris[i].v3.z << " \n";
+
+  }
+
+  printf("idk we got here\n");
+
+  for(int i= 0; i < 4; i++){
+    for(int j =0; j < 4; j++){
+      std::cout << projMat->get(j,i);
+    }
+    printf("\n");
+  }
+
+
+
+  /*bs::mulMatVector(cube->tris[0].v1, &triProj->v1,projMat);
+     bs::mulMatVector(cube->tris[0].v2, &triProj->v2, projMat);
+     bs::mulMatVector(cube->tris[0].v3, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[1].v1, &triProj->v1, projMat);
+    bs::mulMatVector(cube->tris[1].v1, &triProj->v2, projMat);
+    bs::mulMatVector(cube->tris[1].v1, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[6].v1, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[7].v1, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[8].v1, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[9].v1, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[10].v1, &triProj->v3, projMat);
+    bs::mulMatVector(cube->tris[11].v1, &triProj->v3, projMat);
+*/
+  
+  
+
+
+
+
+
+
+
+  w->setPosition(0, 0);
+  w->setResolution(width,height);
+  w->setTitle("bogus");
+  Renderer* r = new Renderer();
+  w->setFPS(-1);
+  w->borderless = true;
+  r->createWindow(w);
+ Tri<float> * t = new Tri<float>();
+
+      t->setCol(255,255,255);
+  for(int i =0; i < 12; i++){
+    printf("it%i\n",i);
+
+    Triangle<float>* triProj = new Triangle<float>();
+      Vertex<float> v1trans;
+    v1trans.x = cube->tris[i].v1.x;
+    v1trans.y = cube->tris[i].v1.y;
+    v1trans.z = cube->tris[i].v1.z + 3;
+      Vertex<float> v2trans;
+    v2trans.x = cube->tris[i].v2.x;
+    v2trans.y = cube->tris[i].v2.y;
+    v2trans.z = cube->tris[i].v2.z + 3;
+      Vertex<float> v3trans;
+    v3trans.x = cube->tris[i].v3.x;
+    v3trans.y = cube->tris[i].v3.y;
+    v3trans.z = cube->tris[i].v3.z + 3;
+
+
+
+     /* 
+    bs::mulMatVector(cube->tris[i].v1, &triProj->v1, projMat);
+    bs::mulMatVector(cube->tris[i].v2, &triProj->v2, projMat);
+     bs::mulMatVector(cube->tris[i].v3, &triProj->v3,  projMat);*/
+    bs::mulMatVector(v1trans, &triProj->v1, projMat);
+    bs::mulMatVector(v2trans, &triProj->v2, projMat);
+    bs::mulMatVector(v3trans, &triProj->v3,  projMat);
+    triProj->v1.x +=1;
+    triProj->v1.y += 1;
+    triProj->v2.x +=1;
+    triProj->v2.y += 1;
+    triProj->v3.x +=1;
+    triProj->v3.y += 1;
+
+
+    triProj->v1.x *= (0.5* width);
+    triProj->v1.y *= (0.5* height);
+    triProj->v2.x *= (0.5* width);
+    triProj->v2.y *= (0.5* height);
+    triProj->v3.x *= (0.5* width);
+    triProj->v3.y *= (0.5* height);
+
+
+
+        std::cout << triProj->v1.x;
+    t->update(triProj);
+    printf("drawn%i\n",i);
+      t->Draw(w, false);
+
+  }
+  
+  IntMeter i;
+  i.addExecution([w](){w->printFPS();}, 10e5);
+ /* ColorRGB barva;
+  barva.r = 0;
+  barva.g = 0;
+  barva.b = 0;
+ 
+  for(int i =0; i < width*height; i++){
+    w->frameBuffer[i] = barva; 
+  }
+   */
+
+/*
+  Tri<int>* t = new Tri<int>(200,200,200,300,300,300);
+  Tri<int>* t2 =new Tri<int>(200,200,200,100,100,100);
+  Tri<int>* t3 =new Tri<int>(200,200,100,200,100,300);
+  Tri<int>* t4 =new Tri<int>(229,200,300,200,300,100);
+  
+  t2->setCol(255,0,0);
+  t->setCol(0,255,0);
+  t3->setCol(255,255,0);
+  t4->setCol(255,0,255);
+  t->Draw(w);
+  t2->Draw(w);
+  t3->Draw(w);
+  t4->Draw(w);*/
+  while(r->running()){
+ //   t->Draw(w);
+  }
+  i.clearTimeouts();
+ 
+  return 0;
+}
+

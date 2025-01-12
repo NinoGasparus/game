@@ -4,7 +4,7 @@
 #include "../DataStruct/Color/Color.h"
 #include "../DataStruct/Vector/Vector.h"
 #include "../Renderer/Window.h"
-
+#include "../Shapes/2D/Triagle/Triangle.h"
 class Drawable{
   private:
   public:
@@ -113,6 +113,51 @@ class Tri : public Drawable{
       this->v3->x() = v3->x();
       this->v3->y() = v3->y();
     }
+    //fix
+    Tri(Triangle<T> tri) {
+    this->v1->x() = tri.v1.x;
+    this->v1->y() = tri.v1.y;
+
+    this->v2->x() = tri.v2.x;
+    this->v2->y() = tri.v2.y;
+
+    this->v3->x() = tri.v3.x;
+    this->v3->y() = tri.v3.y;
+    }
+    Tri(Triangle<T>* tri) {
+    this->v1->x() = tri->v1.x;
+    this->v1->y() = tri->v1.y;
+
+    this->v2->x() = tri->v2.x;
+    this->v2->y() = tri->v2.y;
+
+    this->v3->x() = tri->v3.x;
+    this->v3->y() = tri->v3.y;
+    }
+
+    void update(Triangle<T> tri){
+this->v1->x() = tri.v1.x;
+    this->v1->y() = tri.v1.y;
+
+    this->v2->x() = tri.v2.x;
+    this->v2->y() = tri.v2.y;
+
+    this->v3->x() = tri.v3.x;
+    this->v3->y() = tri.v3.y;
+
+  }
+  void update(Triangle<T>* tri) {
+    this->v1->x() = tri->v1.x;
+    this->v1->y() = tri->v1.y;
+
+    this->v2->x() = tri->v2.x;
+    this->v2->y() = tri->v2.y;
+
+    this->v3->x() = tri->v3.x;
+    this->v3->y() = tri->v3.y;
+    }
+
+
     void Draw(Window* w, bool fill); 
     void Draw(Window* w) override;
     ~Tri(){

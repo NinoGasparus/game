@@ -6,9 +6,11 @@
 
 template <typename T>
 Triangle<T>::Triangle(){
-  this->v1.setZero();
-  this->v2.setZero();
-  this->v3.setZero();
+
+
+  v1.setZero();
+ v2.setZero();
+  v3.setZero();
 }
 
 template <typename T>

@@ -15,7 +15,7 @@ float VecND<T>::mag() const {
     for (int i = 0; i < this->size; i++) {
         sqrtsum += this->data[i] * this->data[i];
     }
-    return std::sqrtf(sqrtsum);
+    return std::sqrt(sqrtsum);
 }
 
 template <typename T>

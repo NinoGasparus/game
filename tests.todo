@@ -1,3 +1,12 @@
 make renderer work with generating multiple windows
 
 make resizing events update window resolution fields
+
+implement the random fucns to objects
+
+fix random fixes
+
+fix obj import  shinanegans
+  (background threads wont stop when quit)
+  (remap offset all negative values to positive);
+

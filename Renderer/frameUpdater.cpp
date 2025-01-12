@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include <iostream>
+#include <mutex>
 
 
 void Renderer::frameUpdater(Window* w){
@@ -51,16 +52,7 @@ void Renderer::frameUpdater(Window* w){
     
   int width = w->resolution->x();
   int height = w->resolution->y();
-  /*
-    uint32_t* framebuffer = new uint32_t[width * height];  
-
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            framebuffer[y * width + x] = 0xFF0000FF; 
-        }
-    }
-
- */ 
+ 
     
 
   SDL_Renderer* pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -79,29 +71,26 @@ void Renderer::frameUpdater(Window* w){
   auto t1 = std::chrono::high_resolution_clock::now();
 
   while(running){
-    t0 = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(std::chrono::milliseconds(w->timeout));
-    if(!active){
-      return;
-    }
-
-    while(SDL_PollEvent(&event)){
-      if(event.type == SDL_QUIT ||  event.type == SDL_WINDOWEVENT_CLOSE){
-        w->closing = true;
-        goto end;
+      t0 = std::chrono::high_resolution_clock::now();
+      std::this_thread::sleep_for(std::chrono::milliseconds(w->timeout));
+      if(!active){
+        return;
       }
-    }
 
-    SDL_UpdateTexture(texture, NULL, w->frameBuffer, width * sizeof(uint32_t));
+      while(SDL_PollEvent(&event)){
+        if(event.type == SDL_QUIT ||  event.type == SDL_WINDOWEVENT_CLOSE){
+          w->closing = true;
+          goto end;
+        }
+      }
+    std::lock_guard<std::mutex> lock(mtx);
+      SDL_UpdateTexture(texture, NULL, w->frameBuffer[w->activeBuff], width * 4 );
+      //SDL_RenderClear(pRenderer);
+      SDL_RenderCopy(pRenderer, texture, NULL, NULL);
 
-    SDL_RenderClear(pRenderer);
-
-    SDL_RenderCopy(pRenderer, texture, NULL, NULL);
-
-    SDL_RenderPresent(pRenderer);
-    t1 =  std::chrono::high_resolution_clock::now();
-    w->fps = (int)10e6/std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count();
-
+      SDL_RenderPresent(pRenderer);
+      t1 =  std::chrono::high_resolution_clock::now();
+      w->fps = (int)10e6/std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count();
   }
   end:
   SDL_DestroyTexture(texture);

@@ -4,7 +4,9 @@
 #include "../DataStruct/Vector/Vector.h"
 #include "../Intervalometer/IntMeter.h"
 #include <SDL2/SDL_stdinc.h>
+#include <atomic>
 #include <cstdint>
+#include <mutex>
 #include <string>
 
 
@@ -26,11 +28,12 @@ class Window{
     Uint32 additionalFlags;
     int fps = 0;    
     int  timeout =0;
-    uint32_t* frameBuffer;   
-    static bool closing;
-    
-    void  init();
+    uint32_t* frameBuffer[2];
 
+  std::mutex mtx; 
+  std::atomic<int> activeBuff =0;
+    static bool closing;
+    void  init();
     Window();
     Window(const std::string& t); 
     Window(const std::string& t, Vec2D<int>& res); 
@@ -63,11 +66,21 @@ class Window{
       printf("FPS: %i\n", this->fps);
     }
 
-    
+   void clear(uint32_t col){
+      for(int i=0; i <resolution->x()* resolution->y(); i++){
+        frameBuffer[activeBuff][i] = col; 
+    }
+  }
+
+  void flip(){
+    std::lock_guard<std::mutex> lock(mtx);
+    activeBuff ^=1;
+  }
     ~Window(){
     delete resolution;
     delete position;
-    delete frameBuffer;
+    delete frameBuffer[0];
+    delete frameBuffer[1];
     }
 };
 #endif // !WINDOW_H

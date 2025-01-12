@@ -5,7 +5,7 @@
 
 template <typename T>
 class Matrix{
-  private:
+  protected:
     T** data;
   public:
     Vec2D<int>* size;
@@ -17,12 +17,6 @@ class Matrix{
     virtual void    set(Matrix<T> matrix);
     virtual T       get(int dimX, int dimY);
     
-
-    Matrix<T> operator + (const Matrix<T>& other) const;
-    Matrix<T> operator - (const Matrix<T>& other) const;
-    Matrix<T> operator * (const Matrix<T>& other) const;
-    Matrix<T> operator / (const Matrix<T>& other) const;
-    Matrix<T> operator = (const Matrix<T>& other);
     void print();
     ~Matrix();
 };
@@ -31,8 +25,7 @@ template <typename T>
 class SquareM : public Matrix<T>{
   private:
   public:
-
-    SquareM(int sizeXY);
+   SquareM(int sizeXY);
     SquareM(Matrix<T>* m);
 };
 
@@ -41,7 +34,7 @@ template <typename T>
 class GeneralM : public Matrix<T>{
   private:
   public:
-    GeneralM(int sizeXY);
+   GeneralM(int sizeXY);
     GeneralM(int sizeX, int sizeY);
   
 

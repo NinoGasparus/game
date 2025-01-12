@@ -38,7 +38,7 @@ void Tri<T>::Draw(Window* w, bool fill) {
 
       for(int x = xStart; x <= xEnd; x++){
         if(x >= 0 && x < w->resolution->x() && y >= 0 && y < w->resolution->y()){
-          w->frameBuffer[y*w->resolution->x()+x] = (uint32_t)(*this->col);
+          w->frameBuffer[w->activeBuff][y*w->resolution->x()+x] = (uint32_t)(*this->col);
         }
       }
     }

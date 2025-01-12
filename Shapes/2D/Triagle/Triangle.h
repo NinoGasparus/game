@@ -9,6 +9,8 @@ class Triangle{
     Vertex<T> v1;
     Vertex<T> v2;
     Vertex<T> v3;
+
+  //fix
   Triangle<T>();
     
     void scale(T scale);
@@ -17,5 +19,6 @@ class Triangle{
     void scale(T scaleX, T scaleY, T scaleZ, short vertexID);
 
   Triangle<T>(Vertex<T> v1, Vertex<T> v2, Vertex<T> v3);
+
 };
 #endif // !TRIANGLE_H

@@ -16,7 +16,6 @@ ColorRGB::operator uint32_t() const {
   return v;
 }
 
-
 ColorRGBA::operator uint32_t() const{
   uint32_t v = 0;
   v |= this->r;

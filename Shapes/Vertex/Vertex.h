@@ -9,13 +9,14 @@ class Vertex{
     T x;
     T y;
     T z;
-    
+    //fix
     Vertex<T>();
     Vertex<T>(T x, T y, T z);
     
     void setZero();
     void scale(T scale);
     void scale(T scaleX, T scaleY, T scaleZ);
+    void write(T x, T y, T z);
     ~Vertex<T>();
 };
 

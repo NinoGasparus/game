@@ -11,6 +11,8 @@ class Block : public Mesh<T>{
     int scaleZ;
   
     Block();
+
+    void reScale();
     
 
 };

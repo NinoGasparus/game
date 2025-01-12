@@ -4,41 +4,49 @@
 template <typename  T>
 Vertex<T>::Vertex(){
   this->x = 0;
-  this->y = 0;
-  this->z = 0;
+ this-> y = 0;
+ this-> z = 0;
 }
 
-template <typename  T>
-Vertex<T>::Vertex(T x, T y, T z){
+template <typename T>
+Vertex<T>::Vertex(T x, T y, T z) {
   this->x = x;
   this->y = y;
   this->z = z;
 }
+
 template <typename  T>
 void Vertex<T>::setZero(){
-  this->x =0;
-  this->y = 0;
-  this->z = 0;
+  x =0;
+  y = 0;
+  z = 0;
 }
 
 template  <typename T>
 void Vertex<T>::scale(T scale){
-  this->x *= scale;
-  this->y *= scale;
-  this->z *= scale;
+  x *= scale;
+  y *= scale;
+  z *= scale;
 }
 
 template <typename T>
 void Vertex<T>::scale(T scaleX, T scaleY, T scaleZ){
-  this->x *= scaleX;
-  this->y *= scaleY;
-  this->z *= scaleZ;
+  x *= scaleX;
+  y *= scaleY;
+  z *= scaleZ;
 }
 template <typename T>
 Vertex<T>::~Vertex(){
 
 }
 
+template <typename T>
+void Vertex<T>::write(T x, T y, T z){
+  this->x = x;
+  this->y = y;
+  this->z = z;
+
+}
 
 template class Vertex<int>;
 template class Vertex<float>;

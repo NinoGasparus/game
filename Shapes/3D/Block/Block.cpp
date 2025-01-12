@@ -1,71 +1,85 @@
 #include "Block.h"
 #include <cstdint>
 
-template <typename T>
+
+
+template  <typename T>
 Block<T>::Block() : Mesh<T>(12){
-  
+  this->scaleX = 1;
+  this->scaleY = 1;
+  this->scaleZ = 1;
+  this->triangleCount = 12;
+  this->vertexCount = 8;
 
-// Front 
-this->tris[0].v1.setZero(); // (0, 0, 0)
-this->tris[0].v2.x = 1; this->tris[0].v2.y = 0; this->tris[0].v2.z = 0; // (1, 0, 0)
-this->tris[0].v3.x = 0; this->tris[0].v3.y = 1; this->tris[0].v3.z = 0; // (0, 1, 0)
+/*
+float cubeData[8][3] = {
+  {1.f, 1.f, 1.f},//0
+  {-1.f, 1.f, 1.f},//1
+  {-1.f, 1.f, -1.f},
+  {1.f, 1.f, -1.f},	//3
+  {1.f, -1.f, 1.f},	//4
+  {-1.f, -1.f, 1.f},	//5
+  {-1.f, -1.f, -1.f},	//6
+  {1.f, -1.f, -1.f}	//7
+};*/
 
-this->tris[1].v1.x = 1; this->tris[1].v1.y = 0; this->tris[1].v1.z = 0; // (1, 0, 0)
-this->tris[1].v2.x = 1; this->tris[1].v2.y = 1; this->tris[1].v2.z = 0; // (1, 1, 0)
-this->tris[1].v3.x = 0; this->tris[1].v3.y = 1; this->tris[1].v3.z = 0; // (0, 1, 0)
-
-// Right 
-this->tris[2].v1.x = 1; this->tris[2].v1.y = 0; this->tris[2].v1.z = 0; // (1, 0, 0)
-this->tris[2].v2.x = 1; this->tris[2].v2.y = 1; this->tris[2].v2.z = 0; // (1, 1, 0)
-this->tris[2].v3.x = 1; this->tris[2].v3.y = 0; this->tris[2].v3.z = 1; // (1, 0, 1)
-
-this->tris[3].v1.x = 1; this->tris[3].v1.y = 0; this->tris[3].v1.z = 1; // (1, 0, 1)
-this->tris[3].v2.x = 1; this->tris[3].v2.y = 1; this->tris[3].v2.z = 0; // (1, 1, 0)
-this->tris[3].v3.x = 1; this->tris[3].v3.y = 1; this->tris[3].v3.z = 1; // (1, 1, 1)
-
-// Top
-this->tris[4].v1.x = 0; this->tris[4].v1.y = 1; this->tris[4].v1.z = 0; // (0, 1, 0)
-this->tris[4].v2.x = 1; this->tris[4].v2.y = 1; this->tris[4].v2.z = 0; // (1, 1, 0)
-this->tris[4].v3.x = 0; this->tris[4].v3.y = 1; this->tris[4].v3.z = 1; // (0, 1, 1)
-
-this->tris[5].v1.x = 1; this->tris[5].v1.y = 1; this->tris[5].v1.z = 0; // (1, 1, 0)
-this->tris[5].v2.x = 1; this->tris[5].v2.y = 1; this->tris[5].v2.z = 1; // (1, 1, 1)
-this->tris[5].v3.x = 0; this->tris[5].v3.y = 1; this->tris[5].v3.z = 1; // (0, 1, 1)
-
-// Back
-this->tris[6].v1.x = 1; this->tris[6].v1.y = 0; this->tris[6].v1.z = 1; // (1, 0, 1)
-this->tris[6].v2.x = 0; this->tris[6].v2.y = 0; this->tris[6].v2.z = 1; // (0, 0, 1)
-this->tris[6].v3.x = 1; this->tris[6].v3.y = 1; this->tris[6].v3.z = 1; // (1, 1, 1)
-
-this->tris[7].v1.x = 0; this->tris[7].v1.y = 0; this->tris[7].v1.z = 1; // (0, 0, 1)
-this->tris[7].v2.x = 0; this->tris[7].v2.y = 1; this->tris[7].v2.z = 1; // (0, 1, 1)
-this->tris[7].v3.x = 1; this->tris[7].v1.y = 1; this->tris[7].v3.z = 1; // (1, 1, 1)
-
-// Left
-this->tris[8].v1.x = 0; this->tris[8].v1.y = 0; this->tris[8].v1.z = 0; // (0, 0, 0)
-this->tris[8].v2.x = 0; this->tris[8].v2.y = 0; this->tris[8].v2.z = 1; // (0, 0, 1)
-this->tris[8].v3.x = 0; this->tris[8].v3.y = 1; this->tris[8].v3.z = 0; // (0, 1, 0)
-
-this->tris[9].v1.x = 0; this->tris[9].v1.y = 0; this->tris[9].v1.z = 1; // (0, 0, 1)
-this->tris[9].v2.x = 0; this->tris[9].v2.y = 1; this->tris[9].v2.z = 1; // (0, 1, 1)
-this->tris[9].v3.x = 0; this->tris[9].v3.y = 1; this->tris[9].v3.z = 0; // (0, 1, 0)
-
-// Bottom
-this->tris[10].v1.x = 0; this->tris[10].v1.y = 0; this->tris[10].v1.z = 0; // (0, 0, 0)
-this->tris[10].v2.x = 1; this->tris[10].v2.y = 0; this->tris[10].v2.z = 0; // (1, 0, 0)
-this->tris[10].v3.x = 0; this->tris[10].v3.y = 0; this->tris[10].v3.z = 1; // (0, 0, 1)
-
-this->tris[11].v1.x = 1; this->tris[11].v1.y = 0; this->tris[11].v1.z = 0; // (1, 0, 0)
-this->tris[11].v2.x = 1; this->tris[11].v2.y = 0; this->tris[11].v2.z = 1; // (1, 0, 1)
-this->tris[11].v3.x = 0; this->tris[11].v3.y = 0; this->tris[11].v3.z = 1; // (0, 0, 1)
+float cubeData[8][3] = {
+    {0,  0, 0 },
+    {1, 0, 0 },
+    {1, 1, 0}, 
+    {0, 1, 0},
+    {0, 0, 1}, 
+    {1, 0, 1},
+    {1, 1, 1},
+    {0, 1, 1}
+  };
 
 
+int  indices[12][3] ={
+  {0, 1, 2},
+  {0, 2, 3},
+  {1, 5, 6},
+  {1, 6, 2},
+  {5, 4, 7},
+  {5, 7, 6},
+  {4, 0, 3},
+  {4, 3, 7},
+  {0, 1, 5},
+  {0, 5, 4},
+  {3, 2, 6},
+  {3, 6, 7}
+};
 
-  for(int i = 0; i < 12; i++){
+  /*
+int indices[12][3] =
+{
+  {0, 1, 3}, //top 1
+  {3, 1, 2}, //top 2
+  {2, 6, 7}, //front 1
+  {7, 3, 2}, //front 2
+  {7, 6, 5}, //bottom 1
+  {5, 4, 7}, //bottom 2
+  {5, 1, 4}, //back 1
+  {4, 1, 0}, //back 2
+  {4, 3, 7}, //right 1
+  {3, 4, 0}, //right 2
+  {5, 6, 2}, //left 1
+  {5, 1, 2} // left2
+};*/
+for (int i = 0; i < 12; i++) {
+    this->tris[i].v1.write(cubeData[indices[i][0]][0], cubeData[indices[i][0]][1], cubeData[indices[i][0]][2]);
+    this->tris[i].v2.write(cubeData[indices[i][1]][0], cubeData[indices[i][1]][1], cubeData[indices[i][1]][2]);
+    this->tris[i].v3.write(cubeData[indices[i][2]][0], cubeData[indices[i][2]][1], cubeData[indices[i][2]][2]);
+}
+
+}
+
+template  <typename  T>
+void Block<T>::reScale(){
+for(int i = 0; i < 12; i++){
     this->tris[i].scale(this->scaleX, this->scaleY, this->scaleZ);
   }
 }
-
 template class Block<int>;
 template class Block<float>;
 template class Block<double>;

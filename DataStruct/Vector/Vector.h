@@ -51,7 +51,7 @@ class Vec3D : Vector<T>{
     T& x(){ return this->data[0];};
     T& y(){ return this->data[1];};
     T& z(){ return this->data[2];};
-
+    void write(T x, T y, T z);
     float mag() const   override;
     void print() const  override;
     void normalize()    override;

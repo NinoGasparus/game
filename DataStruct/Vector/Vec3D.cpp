@@ -12,7 +12,7 @@ Vec3D<T>::Vec3D() : Vector<T>(3) {
 
 template <typename T>
 float Vec3D<T>::mag() const {
-    return std::sqrtf(this->data[0] * this->data[0] + this->data[1] * this->data[1] + this->data[2] * this->data[2]);
+    return std::sqrt(this->data[0] * this->data[0] + this->data[1] * this->data[1] + this->data[2] * this->data[2]);
 }
 
 template <typename T>
@@ -29,6 +29,13 @@ void Vec3D<T>::normalize() {
     return;
 }
 
+
+template <typename T>
+void Vec3D<T>::write(T x, T y, T z){
+  this->x() = x;
+  this->y() = y;
+  this->z() = z;
+}
 template class Vec3D<int>;
 template class Vec3D<float>;
 template class Vec3D<double>;

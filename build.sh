@@ -36,6 +36,7 @@ files=(
   "./DataStruct/Matrices/SquareM.cpp"
   "./DataStruct/Matrices/GeneralM.cpp"
   "./DataStruct/Matrices/IdentityM.cpp"
+
 )
 
 flags=(
@@ -72,6 +73,8 @@ flags=(
   ""
   ""
   ""
+
+  ""
 )
 
 
@@ -79,7 +82,7 @@ if [[ "$1" == "all" ]]; then
     rm -rf Build/
 fi
 mkdir -p ./Build
-
+rm main
 linkFlags=()
 
 for ((i=0; i<${#files[@]}; i++)); do
@@ -103,7 +106,19 @@ for ((i=0; i<${#files[@]}; i++)); do
     	fi
 done
 
-g++ ./Build/*.o -o main "${linkFlags[@]}" 
-echo "Compilation and linking complete."
 
+
+g++ -shared -o ./Build/library.so random.cpp -I. -fPIC
+
+#g++ ./Build/*.o -o main "${linkFlags[@]}" 
+
+g++ ./Build/*.o -o main -L./Build /home/ojama/game/Build/library.so "${linkFlags[@]}"
+
+string=$(ls | grep main)
+
+if [[ "$string" != "" ]]; then
+  echo "Compilation and linking complete."
+else
+  echo "Compiling failed"
+fi
 

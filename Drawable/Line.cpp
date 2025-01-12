@@ -19,7 +19,7 @@ void Line<T>::Draw(Window* w) {
   if(y1 == y0){
     for (int x = std::min(x1, x0); x <= std::max(x1, x0); x++) {
       if(x >= 0 && x < w->resolution->x() && y1 >= 0 && y1 < w->resolution->y()){
-         w->frameBuffer[y1 * w->resolution->x() + x] = (uint32_t)(*this->col);
+         w->frameBuffer[w->activeBuff][y1 * w->resolution->x() + x] = (uint32_t)(*this->col);
       }
     }
     return;
@@ -28,7 +28,7 @@ void Line<T>::Draw(Window* w) {
   if(x1 == x0) {
     for(int y = std::min(y1, y0); y <= std::max(y1, y0); y++){
       if(x1 >= 0 && x1 < w->resolution->x() && y >= 0 && y < w->resolution->y()){
-        w->frameBuffer[y * w->resolution->x() + x1] = (uint32_t)(*this->col);
+        w->frameBuffer[0][y * w->resolution->x() + x1] = (uint32_t)(*this->col);
       }
     }
     return;
@@ -37,7 +37,7 @@ void Line<T>::Draw(Window* w) {
   //general case Breseman 
   while(true){
     if(x0 >= 0 && y0 >= 0 && x0 < w->resolution->x() && y0 < w->resolution->y()){
-      w->frameBuffer[y0 * w->resolution->x() + x0] = (uint32_t)(*this->col);
+      w->frameBuffer[w->activeBuff][y0 * w->resolution->x() + x0] = (uint32_t)(*this->col);
     }
 
     if(x0 == x1 && y0 == y1){
